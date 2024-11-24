@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>보이스피싱 조회하기</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+      /* 상단바 스타일 */
+    .navbar {
+      position: fixed;               /* 화면에 고정 */
+      top: 0;                        /* 화면 상단에 위치 */
+      left: 0;                       /* 왼쪽에 붙이기 */
+      width: 100%;                   /* 전체 너비 사용 */
+      display: flex;
+      justify-content: space-between; /* 좌우 정렬 */
+      align-items: center;           /* 수직 중앙 정렬 */
+      padding: 10px 20px;
+      background-color: #a00;        /* 상단바 배경색 */
+      color: white;                  /* 텍스트 색상 */
+      z-index: 1000;                 /* 다른 요소 위에 표시 */
+    }
+    /* 왼쪽 문구 스타일 */
+    .navbar .logo {
+      color: white;                     /* 링크 텍스트 색상 */
+      text-decoration: none;            /* 밑줄 제거 */
+      list-style: none;                 /* 기본 리스트 스타일 제거 */
+      display: flex;
+      font-size: 20px;
+      font-weight: bold;
+      }
+
+    .navbar .logo a {
+      color: white;                     /* 링크 텍스트 색상 */
+      text-decoration: none;            /* 밑줄 제거 */
+      font-size: 20px;
+      transition: color 0.3s;           /* 호버 색상 전환 */
+  }
+
+  .navbar .logo a:hover {
+    color: #a0a0a0;                   /* 호버 시 텍스트 색상 변경 */
+  }
+
+    /* 오른쪽 네비게이션 메뉴 스타일 */
+    .navbar .nav-links {
+      list-style: none;                 /* 기본 리스트 스타일 제거 */
+      display: flex;
+      gap: 20px;                        /* 링크 간격 */
+  }
+
+    .navbar .nav-links a {
+        color: white;                     /* 링크 텍스트 색상 */
+        text-decoration: none;            /* 밑줄 제거 */
+        font-size: 16px;
+        transition: color 0.3s;           /* 호버 색상 전환 */
+  }
+
+    .navbar .nav-links a:hover {
+        color: #a0a0a0;                   /* 호버 시 텍스트 색상 변경 */
+  }
+
+     /* 페이지 전체를 중앙에 배치하는 컨테이너 설정 */
+    body {
+    display: flex;
+    align-items: center;           /* 수직 가운데 정렬 */
+    justify-content: center;        /* 수평 가운데 정렬 */
+    height: 100vh;                  /* 화면 전체 높이 */
+    margin: 0;                      /* 기본 마진 제거 */
+    margin-top: 60px;              /* 상단바 높이만큼 여백 */
+  }
+
+  /* 콘텐츠들을 세로로 나열하여 중앙 정렬 */
+  .center-container {
+    display: flex;
+    flex-direction: column;         /* 세로 정렬 */
+    align-items: center;            /* 자식 요소 수평 가운데 정렬 */
+    text-align: center;             /* 텍스트 가운데 정렬 */
+    font-weight: bold;
+    gap: 20px;                      /* 요소 사이 간격 */
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;  /* 폰트 적용 */
+    color: white;                /* 텍스트 색상 */
+    background-color: #a00;      /* 빨간색 배경 고정 */
+    border: 2px solid #a00;      /* 버튼 테두리 */
+    cursor: pointer;
+    transition: color 0.3s;      /* 텍스트 색상 전환 속도 */
+  }
+
+  hr {
+    width : 100%;
+  }
+  
+  .hr-solid {
+    border : 0px;
+    border-top: 0px solid;
+  }
+  
+  .hr-doubled {
+    border : 0px;
+    border-top: 0px double;
+  }
+  
+  .hr-dashed {
+    border : 0px;
+    border-top: 0px dashed;
+  }
+  .container {
+    background-color: #f2f2f2;    /* 회색 배경 */
+    padding: 20px;             /* 내부 여백 */
+    border-radius: none;       /* 둥근 모서리 */
+    text-align: center;        /* 텍스트 가운데 정렬 */
+}
+</style>
+</head>
+
+<body>
+    <div class="navbar">
+      <!-- 왼쪽 문구 -->
+      <div class="logo">
+        <li><a href="index.html">Voice Phishing Detector</a></li>
+      </div>
+  
+      <!-- 오른쪽 네비게이션 메뉴 -->
+      <ul class="nav-links">
+          <li><a href="login.html">신고하기</a></li>
+          <li><a href="check.html">조회하기</a></li>
+          <li><a href="analyze.html">분석하기</a></li>
+          <li><a href="mypage.html">마이페이지</a></li>
+      </ul>
+    </div>
+    <div class="center-container">
+      <div class="hr">
+        <h1>보이스피싱 조회하기</h1><br>
+        <hr/><br>
+        <p>아래에 의심 정보를 입력해주시면 조회가 가능합니다.</p><br>
+
+        <form id="lookupForm">
+            <label for="bank">계좌번호</label>
+            <select id="bank" name="bank" required onchange="toggleOtherInput()">
+                <option value="은행을 선택하세요.">은행을 선택하세요.</option>
+                <option value="우체국">우체국</option>
+                <option value="국민">국민</option>
+                <option value="농협">농협</option>
+                <option value="신한">신한</option>
+                <option value="우리">우리</option>
+                <option value="하나">하나</option>
+                <option value="기업">기업</option>
+                <option value="새마을금고">새마을금고</option>
+                <option value="토스뱅크">토스뱅크</option>
+                <option value="케이뱅크">케이뱅크</option>
+                <option value="카카오뱅크">카카오뱅크</option>
+                <option value="기타">기타</option>
+            </select>
+          <div id="기타" style="display: none;">
+            <input type="text" id="기타" name="기타" placeholder="기타 은행 이름 입력">
+          </div>
+            <input type="text" id="accountNumber" name="accountNumber" pattern="\d{1,20}" maxlength="20" placeholder="'-' 없이 입력" required>
+            <br>
+            <br>
+
+            <label for="phoneNumber">전화번호</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="'-'도 입력" required>
+            <br><br><br>
+            <button type="button" id="submit" onclick="lookupReport()" class="btn">조회</button>
+        </form>
+        
+      <script>
+        function toggleOtherInput() {
+          const bankSelect = document.getElementById('bank');
+          const otherBankField = document.getElementById('기타');
+
+          // 드롭다운에서 '기타' 선택 여부에 따라 입력 필드를 보이거나 숨김
+          if (bankSelect.value === '기타') {
+              otherBankField.style.display = 'block';
+          } else {
+              otherBankField.style.display = 'none';
+          }
+        }
+      </script>
+
+        <div id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const reportData = [
+            { bank: "농협", accountNumber: "12345678901", phoneNumber: "010-1234-5678", reportDetail: "계좌는 3건, 전화번호는 1건의 신고 내역이 있습니다." },
+            { bank: "국민", accountNumber: "23456789012", phoneNumber: "010-9876-5432", reportDetail: "계좌는 4건, 전화번호는 1건의 신고 내역이 있습니다." },
+            { bank: "신한", accountNumber: "34567890123", phoneNumber: "010-1111-2222", reportDetail: "계좌는 2건, 전화번호는 3건의 신고 내역이 있습니다." },
+        ];
+
+        function lookupReport() {
+            console.log("lookupReport 함수가 호출되었습니다.");
+
+            const bank = document.getElementById("bank").value;
+            const accountNumber = document.getElementById("accountNumber").value;
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            const resultDiv = document.getElementById("result");
+
+            // 신고 데이터를 찾는 로직
+            const reportFound = reportData.find(report => 
+                report.bank === bank && 
+                report.accountNumber === accountNumber && 
+                report.phoneNumber === phoneNumber
+            );
+
+            if (reportFound) {
+                // 신고 내역이 있을 경우, 상세 내용도 표시
+                resultDiv.innerHTML = `
+                    <p style="color: red;">조회 결과: 신고 내역이 있습니다.</p>
+                    <div style="border: 1px solid #a00000; padding: 10px; margin-top: 10px;">
+                        <p><strong>신고 내역</strong></p>
+                        <p><strong>은행:</strong> ${reportFound.bank}</p>
+                        <p><strong>계좌번호:</strong> ${reportFound.accountNumber}</p>
+                        <p><strong>전화번호:</strong> ${reportFound.phoneNumber}</p>
+                        <p><strong>상세 내용:</strong> ${reportFound.reportDetail}</p>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `<p style="color: green;">조회 결과: 신고 내역이 없습니다.</p>`;
+            }
+        }
+    </script>
+      <script>
+    // 조회 버튼 클릭 시 처리
+    document.getElementById("submit").addEventListener("click", function(event) {
+      event.preventDefault(); // 기본 제출 동작을 막음
+  
+      // 입력된 계좌번호, 전화번호, 신고 내용 가져오기
+      const bank = document.getElementById("bank").value.trim();
+      const accountNumber = document.getElementById("accountNumber").value.trim();
+      const phoneNumber = document.getElementById("phoneNumber").value.trim();
+  
+      // 데이터가 입력되지 않았을 때 경고
+      if (!bank || (!accountNumber && !phoneNumber)) {
+          alert("계좌번호 또는 전화번호 중 하나는 반드시 입력해주세요.");
+          return;
+      }
+  
+      // 콘솔에 데이터 출력 (여기서 실제로 처리할 수도 있음)
+      console.log("은행:", bank);
+      if (accountNumber) {
+        console.log("계좌번호:", accountNumber);
+      }
+      if (phoneNumber) {
+        console.log("전화번호:", phoneNumber);
+      }
+  
+      });
+    </script>
+</body>
+</html>

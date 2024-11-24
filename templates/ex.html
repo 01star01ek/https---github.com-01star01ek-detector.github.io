@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>보이스피싱 신고하기</title>
+  <style>
+    /* 상단바 스타일 */
+    .header {
+      position: fixed;           /* 화면 상단에 고정 */
+      top: 0;                    /* 상단 여백 0 */
+      left: 0;                   /* 왼쪽 여백 0 */
+      width: 100%;               /* 전체 너비 */
+      background-color: #333;    /* 배경색 */
+      color: white;              /* 텍스트 색상 */
+      padding: 10px 20px;        /* 내부 여백 */
+      z-index: 1000;             /* 다른 요소 위에 표시 */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+    }
+
+      /* 상단바 스타일 */
+    .navbar {
+      position: fixed;               /* 화면에 고정 */
+      top: 0;                        /* 화면 상단에 위치 */
+      left: 0;                       /* 왼쪽에 붙이기 */
+      width: 100%;                   /* 전체 너비 사용 */
+      display: flex;
+      justify-content: space-between; /* 좌우 정렬 */
+      align-items: center;           /* 수직 중앙 정렬 */
+      padding: 10px 20px;
+      background-color: #a00;        /* 상단바 배경색 */
+      color: white;                  /* 텍스트 색상 */
+      z-index: 1000;                 /* 다른 요소 위에 표시 */
+    }
+    /* 왼쪽 문구 스타일 */
+    .navbar .logo {
+      color: white;                     /* 링크 텍스트 색상 */
+      text-decoration: none;            /* 밑줄 제거 */
+      list-style: none;                 /* 기본 리스트 스타일 제거 */
+      display: flex;
+      font-size: 20px;
+      font-weight: bold;
+      }
+
+    .navbar .logo a {
+      color: white;                     /* 링크 텍스트 색상 */
+      text-decoration: none;            /* 밑줄 제거 */
+      font-size: 20px;
+      transition: color 0.3s;           /* 호버 색상 전환 */
+  }
+
+  .navbar .logo a:hover {
+    color: #a0a0a0;                   /* 호버 시 텍스트 색상 변경 */
+  }
+
+    /* 오른쪽 네비게이션 메뉴 스타일 */
+    .navbar .nav-links {
+      list-style: none;                 /* 기본 리스트 스타일 제거 */
+      display: flex;
+      gap: 20px;                        /* 링크 간격 */
+  }
+
+    .navbar .nav-links a {
+        color: white;                     /* 링크 텍스트 색상 */
+        text-decoration: none;            /* 밑줄 제거 */
+        font-size: 16px;
+        transition: color 0.3s;           /* 호버 색상 전환 */
+  }
+
+    .navbar .nav-links a:hover {
+        color: #a0a0a0;                   /* 호버 시 텍스트 색상 변경 */
+  }
+
+     /* 페이지 전체를 중앙에 배치하는 컨테이너 설정 */
+    body {
+    padding-top: 60px; 
+    align-items: center;           /* 수직 가운데 정렬 */
+    justify-content: center;        /* 수평 가운데 정렬 */
+    height: 100vh;                  /* 화면 전체 높이 */
+    margin: 0;                      /* 기본 마진 제거 */
+    margin-top: 60px;              /* 상단바 높이만큼 여백 */
+  }
+
+  /* 콘텐츠들을 세로로 나열하여 중앙 정렬 */
+  .center-container {
+    display: flex;
+    flex-direction: column;         /* 세로 정렬 */
+    align-items: center;            /* 자식 요소 수평 가운데 정렬 */
+    text-align: center;             /* 텍스트 가운데 정렬 */
+    font-weight: bold;
+    gap: 20px;                      /* 요소 사이 간격 */
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;  /* 폰트 적용 */
+    color: white;                /* 텍스트 색상 */
+    background-color: #a00;      /* 빨간색 배경 고정 */
+    border: 2px solid #a00;      /* 버튼 테두리 */
+    cursor: pointer;
+    transition: color 0.3s;      /* 텍스트 색상 전환 속도 */
+  }
+
+    /* 입력 그룹 */
+  .input-group {
+  margin-bottom: 20px;
+  text-align: center;
+  }
+
+  .input-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .input-group select,
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  hr {
+    width : 100%;
+  }
+  
+  .hr-solid {
+    border : 0px;
+    border-top: 0px solid;
+  }
+  
+  .hr-doubled {
+    border : 0px;
+    border-top: 0px double;
+  }
+  
+  .hr-dashed {
+    border : 0px;
+    border-top: 0px dashed;
+  }
+
+    /* 신고 내용 입력란 */
+  .report-box {
+    width: 100%;
+    padding: 10px;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    resize: none;
+  }
+
+  .report-label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    font-size: 16px;
+  }
+</style>
+</head>
+
+<body>
+  <div class="navbar">
+    <!-- 왼쪽 문구 -->
+    <div class="logo">
+      <li><a href="index.html">Voice Phishing Detector</a></li>
+    </div>
+
+    <!-- 오른쪽 네비게이션 메뉴 -->
+    <ul class="nav-links">
+        <li><a href="login.html">신고하기</a></li>
+        <li><a href="check.html">조회하기</a></li>
+        <li><a href="analyze.html">분석하기</a></li>
+        <li><a href="mypage.html">마이페이지</a></li>
+    </ul>
+  </div>
+  <div class="center-container">
+    <div class="hr">
+      <h1>보이스피싱 신고하기</h1><br>
+      <hr/><br>
+      <h3>아래에 의심 정보를 제출해주시면 신고가 완료됩니다.</h3>
+      <br><br>
+      <label for="name">신고자 이름</label>
+      <input type="text" id="name" required><br><br>
+      <label for="birth">신고 일자</label>
+      <input type="date" id="date" min="1900-01-01" max="2024-10-31" required><br><br>
+
+      <form>
+        <label for="region">발생 지역</label>
+        <select id="region" name="region" required onchange="toggleOtherInput()">
+          <option value="">전화가 걸려 온 지역</option>
+          <option value="02">서울(02)</option>
+          <option value="031">경기(031)</option>
+          <option value="032">인천(032)</option>
+          <option value="033">강원(033)</option>
+          <option value="041">충남(041)</option>
+          <option value="042">대전(042)</option>
+          <option value="043">충북(043)</option>
+          <option value="044">세종(044)</option>
+          <option value="051">부산(051)</option>
+          <option value="052">울산(052)</option>
+          <option value="053">대구(053)</option>
+          <option value="054">경북(054)</option>
+          <option value="055">경남(055)</option>
+          <option value="061">전남(061)</option>
+          <option value="062">광주(062)</option>
+          <option value="063">전북(063)</option>
+          <option value="064">제주(064)</option>
+          <option value="other">기타</option>
+          <input type="text" id="region" name="region" placeholder="그 외의 지역(해외 등)">
+        </select><br><br>
+      <label for="question">귀하는 직접적인 피해를 입으셨습니까? (사기범에게 계좌 이체 등)</label><br>
+      <input type="radio" name="question">예
+      <input type="radio" name="question">아니오<br><br>
+      <form>
+        <label for="account">계좌번호</label><br>
+        <select id="bank" name="bank" required onchange="toggleOtherInput()">
+          <option value="">은행</option>
+          <option value="우체국">우체국</option>
+          <option value="국민">국민</option>
+          <option value="농협">농협</option>
+          <option value="신한">신한</option>
+          <option value="우리">우리</option>
+          <option value="하나">하나</option>
+          <option value="기업">기업</option>
+          <option value="새마을금고">새마을금고</option>
+          <option value="토스뱅크">토스뱅크</option>
+          <option value="케이뱅크">케이뱅크</option>
+          <option value="카카오뱅크">카카오뱅크</option>
+          <option value="기타">기타</option>
+          <input type="text" id="account" name="account" pattern="\d{1,20}" maxlength="20" placeholder="'-' 없이 입력">
+        </select><br>
+      <div id="기타" style="display: none;">
+          <input type="text" id="기타" name="기타" placeholder="기타 은행 이름 입력">
+      </div>
+      </form>
+
+        <script>
+          function toggleOtherInput() {
+              const bankSelect = document.getElementById('bank');
+              const otherBankField = document.getElementById('기타');
+
+              // 드롭다운에서 '기타' 선택 여부에 따라 입력 필드를 보이거나 숨김
+              if (bankSelect.value === '기타') {
+                  otherBankField.style.display = 'block';
+              } else {
+                  otherBankField.style.display = 'none';
+              }
+          }
+      </script>
+
+      <br><br><label for="phone">전화번호</label><br>
+      <input type="text" id="phone" name="phone" placeholder="'-'도 입력"></select><br>
+      <br><br>
+
+        <!-- 신고 내용 작성란 -->
+        <div class="input-group">
+          <label class="report-label" for="report-content">신고내용</label>
+          <textarea id="report-content" class="report-box" placeholder="750자 내외로 신고 내용을 작성해주세요." maxlength="750"></textarea>
+        </div>
+      <br>
+      <input type="submit" id="submit" value="신고" class="btn">
+      <br>
+      <br>
+      <p>※ 제출하신 신고 내용이 보이스피싱으로 판단될 경우, 보상으로 토큰이 지급됩니다.</p>
+    </div>
+  </div>
+
+  <script>
+  // 신고 버튼 클릭 시 처리
+  document.getElementById("submit").addEventListener("click", function(event) {
+    event.preventDefault(); // 기본 제출 동작을 막음
+
+    // 입력된 계좌번호, 전화번호, 신고 내용 가져오기
+    const bank = document.getElementById("bank").value.trim();
+    const accountNumber = document.getElementById("account").value.trim();
+    const phoneNumber = document.getElementById("phone").value.trim();
+    const reportContent = document.getElementById("report-content").value.trim();
+
+    // 데이터가 입력되지 않았을 때 경고
+    if (!bank || (!accountNumber && !phoneNumber) || !reportContent) {
+        alert("계좌번호 또는 전화번호 중 하나는 반드시 입력해주세요.");
+        return;
+    }
+
+    // 콘솔에 데이터 출력 (여기서 실제로 처리할 수도 있음)
+    console.log("은행:", bank);
+    if (accountNumber) {
+      console.log("계좌번호:", accountNumber);
+    }
+    if (phoneNumber) {
+      console.log("전화번호:", phoneNumber);
+    }
+    console.log("신고내용:", reportContent);
+
+    // 신고 접수 성공 메시지
+    alert("신고가 정상적으로 접수되었습니다.");
+    });
+  </script>
+</body>
+</html>
