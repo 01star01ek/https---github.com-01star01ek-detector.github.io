@@ -9,6 +9,7 @@ def analyze():
     file = request.files['file']
     return jsonify({'uploadId': '123', 'status': '업로드 완료'}), 201
 
+"""
 @analyze_bp.route('/analyze/<string:analysis_id>', methods=['GET'])
 def get_analysis(analysis_id):
     return jsonify({
@@ -21,3 +22,4 @@ def get_analysis(analysis_id):
         'createdAt': datetime.now().isoformat(),
         'audioHash': 'hash123'
     }), 200
+"""

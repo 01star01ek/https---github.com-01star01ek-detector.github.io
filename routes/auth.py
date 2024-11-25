@@ -8,8 +8,9 @@ auth_bp = Blueprint('auth', __name__)
 def login_index():
     return render_template('login.html')
 
+""""
 @auth_bp.route('/join')  # /ex로 접속했을 때 보여줄 페이지
 def join_index():
     return render_template('join.html')
-
+"""
 

@@ -7,7 +7,7 @@ check_bp = Blueprint('check', __name__)
 def show_report_page():
     return render_template('check.html')
 
-
+"""
 @check_bp.route('/check', methods=['POST'])
 def check():
     data = request.get_json()
@@ -23,3 +23,5 @@ def get_check_result():
         'isPhishing': False,
         'searchDate': datetime.now().isoformat()
     }), 200
+
+"""
